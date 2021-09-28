@@ -1,7 +1,5 @@
 # mc_lightning
-PyTorch Lightning Based Digital Pathology Toolkit
-
-
+PyTorch Lightning Based Digital Pathology Toolkit (Public Edition)
 
 ## Installation
 
