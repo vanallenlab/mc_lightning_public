@@ -106,7 +106,7 @@ class PretrainedResnet50FT(pl.LightningModule):
         self.log(who + '_acc', task_acc)
         self.log(who + '_f1', task_f1)
 
-        wandb.run.summary[who + "_best_task_f1"]  = max(wandb.run.summary[who + "_best_task_f1"], task_f1)
+        # wandb.run.summary[who + "_best_task_f1"]  = max(wandb.run.summary[who + "_best_task_f1"], task_f1)
 
         return loss
 

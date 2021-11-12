@@ -21,7 +21,6 @@ mc_lightning/models/__init__.py
 mc_lightning/models/resnet/__init__.py
 mc_lightning/models/resnet/resnet_dataset.py
 mc_lightning/models/resnet/resnet_module.py
-mc_lightning/models/resnet/resnet_regression.py
 mc_lightning/models/resnet/resnet_trainer.py
 mc_lightning/models/resnet/resnet_transforms.py
 mc_lightning/models/simclr_multichannel/__init__.py
