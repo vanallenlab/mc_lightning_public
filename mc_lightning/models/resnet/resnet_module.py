@@ -317,7 +317,8 @@ class PretrainedResnet50FT_Hosp_DRO_abstain(pl.LightningModule):
     def forward(self, x):
         out = self.resnet(x)
         out = torch.flatten(out, 1) 
-        return self.temperature_scale(out)
+        return out
+    
     def temperature_scale(self, logits):
         """
         Perform temperature scaling on logits
@@ -342,7 +343,7 @@ class PretrainedResnet50FT_Hosp_DRO_abstain(pl.LightningModule):
         with torch.no_grad():
             for input, label, _ in valid_loader:
                 input = input.cuda()
-                logits = self(input)
+                logits = self.classifier(self(input))
                 logits_list.append(logits)
                 labels_list.append(label)
             logits = torch.cat(logits_list).cuda()
@@ -388,13 +389,13 @@ class PretrainedResnet50FT_Hosp_DRO_abstain(pl.LightningModule):
         
         #Define logits over the task and source embeddings
         task_logits = self.classifier(embs)
+
+        #Temperature scale the logits
+        task_logits = self.temperature_scale(task_logits)
         
         #Converting logits to probabilities
         sm = torch.nn.Softmax()
         probabilities = sm(task_logits) 
-        
-        # confidence_region = torch.any(probabilities > self.hparams.confidence_threshold, 1)
-        # confidence_region = (probabilities[:, 1] > self.hparams.confidence_threshold) | (probabilities[:, 0] > self.hparams.confidence_threshold)
         
         confidence_region = torch.any(probabilities > self.hparams.confidence_threshold, 1)
 
